@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>121 Comms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styleSheet.css') }}">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div class="fullWidthDiv">
+    <div class="maxWidthDiv">
+
+        <div class="logoDiv">
+            <img src="{{ url_for('static', filename='images/Logo-121.png') }}" alt="121Logo" />
+        </div>
+
+        <div class="bodyTextCont">
+            <b>Your AI-Powered 121 Marketing Communication Engine</b>
+            <p>Generate personalized, one-to-one communication for Email, SMS and WhatsApp.</p>
+        </div>
+
+        <ul class="tabsButtons">
+            <li class="active-btn">CREATE NEW</li>
+            <li>IMPROVE EXISTING</li>
+        </ul>
+
+        <ul class="tabsContent">
+
+            <!-- ✅ Create New Form -->
+            <li>
+            <form action="/createnew" method="post"> <!-- ✅ Wrap all inputs inside form -->
+
+                <div class="parentDiv">
+                    <div class="chidDivs_2">
+                        <div class="labelDiv reqField">Category</div>
+                        <div class="inptCont">
+                            <input list="SelectCategory" id="category" name="category" class="commonInpt dataList" placeholder="Select or Input Category" required />
+                            <datalist id="SelectCategory">
+                                <option value="Fashion & Apparel"></option>
+                                <option value="Beauty & Personal Care"></option>
+                                <option value="Health & Wellness"></option>
+                                <option value="Food & Beverages"></option>
+                                <option value="Tech & Gadgets"></option>
+                                <option value="Financial Services & Insurance"></option>
+                                <option value="Entertainment & Media"></option>
+                                <option value="Arts & Crafts"></option>
+                                <option value="Automotive & Accessories"></option>
+                            </datalist>
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                    <div class="chidDivs_2">
+                        <div class="labelDiv reqField">Brand</div>
+                        <div class="inptCont">
+                            <input type="text" name="brand" class="commonInpt" placeholder="Input Brand Name" required />
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                </div>
+
+                <div class="parentDiv">
+                    <div class="chidDivs_2">
+                        <div class="labelDiv reqField">State Objective</div>
+                        <div class="inptCont">
+                            <input type="text" name="objective" class="commonInpt" placeholder="Input Here (max. 50 characters)" required />
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+					<div class="chidDivs_2">
+						<div class="labelDiv reqField">Action / CTA</div>
+						<div class="inptCont">
+							<!-- Input with datalist for both selecting and custom input -->
+							<input list="SelectActionOrCTA" name="cta_button" id="cta_button_input" class="commonInpt dataList" placeholder="Select or Input CTA" required />
+							<datalist id="SelectActionOrCTA">
+								<!-- Predefined CTA options will be added dynamically here -->
+							</datalist>
+						</div>
+						<p class="formError_text" id="">error message</p>
+					</div>
+                </div>
+
+                <div class="parentDiv">
+                    <div class="chidDivs_2">
+                        <div class="labelDiv">Offer/ Incentive</div>
+                        <div class="inptCont">
+                            <input type="text" name="offer" class="commonInpt" placeholder="Input Here (max. 30 characters)" />
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                    <div class="chidDivs_2">
+                        <div class="labelDiv">Any specific comments</div>
+                        <div class="inptCont">
+                            <input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" />
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                </div>
+
+                <div class="parentDiv">
+                    <div class="chidDivs_2">
+                        <div class="labelDiv reqField">Medium</div>
+                        <div class="inptCont">
+                            <select name="medium" class="commonInpt" required>
+                                <option value="">Select Medium</option>
+                                <option value="email">Email</option>
+                                <option value="sms">SMS</option>
+                                <option value="whatsapp">WhatsApp</option>
+                            </select>
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                    <div class="chidDivs_2">
+                        <div class="labelDiv">Tonality</div>
+                        <div class="inptCont">
+                            <input list="SelectTonality" name="tone" class="commonInpt dataList" placeholder="Select or Input Tonality" />
+                            <datalist id="SelectTonality">
+								<option value="Anticipation"></option>
+								<option value="Joy"></option>
+								<option value="Trust"></option>
+								<option value="Fear of Missing Out(FOMO)"></option>
+								<option value="Surprise"></option>
+								<option value="Excitement"></option>
+								<option value="Curiosity"></option>
+								<option value="Calmness"></option>
+								<option value="Security"></option>
+								<option value="Kindness"></option>
+								<option value="Admiration"></option>
+								<option value="Thankfulness"></option>
+								<option value="Hope"></option>
+								<option value="Reliability"></option>
+                            </datalist>
+                        </div>
+						<p class="formError_text" id="">error message</p>
+                    </div>
+                </div>
+
+                <div class="parentDiv CTA">
+                    <div class="ackText">
+                        <b>Need content for AB testing</b>
+                        <input type="checkbox" name="ab_testing" value="true" id="ackText_check_1" />
+                        <label for="ackText_check_1"></label>
+                    </div>
+                    <div class="divCTA">
+                        <div class="inptCont">
+                            <input type="button" class="commonInptBTN" id="createNewForm" value="Create" />
+                        </div>
+                    </div>
+                </div>
+
+            </form> <!-- ✅ Form closes here -->
+            </li> <!--CREATE NEW end-->
+
+			<li>
+			<form action="/improveexisting" method="post"> <!-- ✅ Wrap all inputs inside form -->
+
+			<!-- ✅ Improve Existing Section (Initially Hidden) -->
+			<div class="parentDiv ">
+				<div class="chidDivs_2">
+					<div class="labelDiv reqField">Existing Content</div>
+					<div class="inptCont">
+						<textarea class="commonTextArea" name="existing_content" placeholder="Input Existing Content" required></textarea>
+					</div>
+					<p class="formError_text" id="">error message</p>
+				</div>
+			</div>
+
+			<div class="parentDiv width50perc">
+				<div class="chidDivs_2">
+					<div class="labelDiv reqField">Category</div>
+					<div class="inptCont">
+						<input list="SelectCategory" name="category" class="commonInpt dataList" placeholder="Select or Input Category" required />
+						<datalist id="SelectCategory">
+							<option value="Fashion & Apparel"></option>
+							<option value="Beauty & Personal Care"></option>
+							<option value="Health & Wellness"></option>
+							<option value="Food & Beverages"></option>
+							<option value="Tech & Gadgets"></option>
+							<option value="Financial Services & Insurance"></option>
+							<option value="Entertainment & Media"></option>
+							<option value="Arts & Crafts"></option>
+							<option value="Automotive & Accessories"></option>
+						</datalist>
+					</div>
+					<p class="formError_text" id="">error message</p>
+				</div>
+				<div class="chidDivs_2">
+					<div class="labelDiv reqField">Brand</div>
+					<div class="inptCont">
+						<input type="text" name="brand" class="commonInpt" placeholder="Input Brand Name" required  />
+					</div>
+					<p class="formError_text" id="">error message</p>
+				</div>
+				<div class="chidDivs_2">
+					<div class="labelDiv reqField">Medium</div>
+					<div class="inptCont">
+						<select name="medium" class="commonInpt" required>
+							<option value="">Select Medium</option>
+							<option value="email">Email</option>
+							<option value="sms">SMS</option>
+							<option value="whatsapp">WhatsApp</option>
+						</select>
+					</div>
+					<p class="formError_text" id="">error message</p>
+				</div>
+				<div class="chidDivs_2">
+					<div class="labelDiv reqField">Any specific comment</div>
+					<div class="inptCont">
+						<input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" />
+					</div>
+					<p class="formError_text" id="">error message</p>
+				</div>
+			</div>
+
+			<div class="parentDiv CTA">
+				<div class="ackText">
+					<b>Need content for AB testing</b>
+					<input type="checkbox" name="ab_testing" value="true" id="ackText_check_2" />
+					<label for="ackText_check_2"></label>
+				</div>
+				<div class="divCTA">
+					<div class="inptCont">
+						<input type="button" class="commonInptBTN" id="improveExistingForm" value="Improve" />
+					</div>
+				</div>
+			</div>
+
+			</form> <!-- ✅ Form closes here -->
+			</li><!--IMPROVE EXISTING end-->
+
+        </ul>
+
+    </div> <!-- maxWidthDiv div end -->
+
+<script>
+        localStorage.removeItem("createNewResult");
+        localStorage.removeItem("createNewData");
+        localStorage.removeItem("improveExistingResult");
+        localStorage.removeItem("improveData");
+</script>
+
+    <!-- Create New Result Section -->
+<div id="createNewResultSection" class="fullWidthDiv" style="display: none;">
+    <div class="maxWidthDiv">
+        {% if content %}
+            <div class="sumHeader">
+                Ola - Here is the result. Donate a share on your social media if you wish.
+            </div>
+
+            <div class="summeryDiv">
+                <p>{{ content }}</p>
+            </div>
+
+            <div class="smallText">
+                This is a free-to-use Gen AI tool of 0101.today. Check and make brand-specific changes before you publish.
+            </div>
+
+            <!-- Store the result for Create New in localStorage -->
+            <script>
+
+                localStorage.setItem("createNewResult", `{{ content|safe }}`);
+                localStorage.setItem("createNewData", `{{ form_data_create|safe }}`);
+
+
+            </script>
+        {% endif %}
+    </div>
+</div> <!-- maxWidthDiv div end -->
+
+<!-- Improve Existing Result Section -->
+<div id="improveExistingResultSection" class="fullWidthDiv" style="display: none;">
+    <div class="maxWidthDiv">
+        {% if improve_content %}
+            <div class="sumHeader">
+                Ola - Here is the result. Donate a share on your social media if you wish.
+            </div>
+
+            <div class="summeryDiv">
+                <p>{{ improve_content }}</p>
+            </div>
+
+            <div class="smallText">
+                This is a free-to-use Gen AI tool of 0101.today. Please make sure to review the changes before publishing.
+            </div>
+
+            <!-- Store the result for Improve Existing in localStorage -->
+            <script>
+                localStorage.setItem("improveExistingResult", `{{ improve_content|safe }}`);
+                localStorage.setItem("improveData", `{{ form_data_improve|safe }}`);
+
+            </script>
+        {% endif %}
+    </div>
+</div> <!-- maxWidthDiv div end -->
+
+
+<div id="overlay" class="overlay" style="display: none;"></div>
+
+<div id="loader" class="loader" style="display: none;">
+    <p>Processing...</p>
+</div>
+
+
+<script type="text/javascript">
+    // Function to show the loader and overlay
+    function showLoader() {
+        document.getElementById("loader").style.display = "block"; // Show the loader
+        document.getElementById("overlay").style.display = "block"; // Show the overlay (gray out)
+    }
+
+    // Function to hide the loader and overlay
+    function hideLoader() {
+        document.getElementById("loader").style.display = "none"; // Hide the loader
+        document.getElementById("overlay").style.display = "none"; // Hide the overlay
+    }
+
+    // For Create New Form button click
+    document.getElementById("createNewForm").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent form submission to handle loader
+        showLoader(); // Show loader and overlay
+        
+        // Optional: Simulate some delay to see the loader working
+        setTimeout(function() {
+            document.querySelector('form[action="/createnew"]').submit(); // Submit the form after the loader appears
+        }, 2000); // Change the delay as per your requirement
+    });
+
+    // For Improve Existing Form button click
+    document.getElementById("improveExistingForm").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent form submission to handle loader
+        showLoader(); // Show loader and overlay
+        
+        // Optional: Simulate some delay to see the loader working
+        setTimeout(function() {
+            document.querySelector('form[action="/improveexisting"]').submit(); // Submit the form after the loader appears
+        }, 2000); // Change the delay as per your requirement
+    });
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/index.js') }}"></script>
+<script type="text/javascript">
+    const CTA_OPTIONS = {
+        "None": ["None"],
+        "Fashion & Apparel": ["Shop Trends", "Get Your Look", "New Arrivals", "Upgrade Now"],
+        "Beauty & Personal Care": ["Glow Up", "Try Now", "Find Your Shade", "Shop Beauty"],
+        "Health & Wellness": ["Start Now", "Get Healthy", "Book Now", "Feel Better"],
+        "Food & Beverages": ["Order Now", "Satisfy Cravings", "Taste It", "Fresh & Delicious"],
+        "Tech & Gadgets": ["Pre-Order", "Upgrade Tech", "Buy Now", "Limited Stock"],
+        "Financial Services & Insurance": ["Get Quote", "Secure Future", "Compare Plans", "Start Saving"],
+        "Entertainment & Media": ["Watch Now", "Get Ticket", "Stream Now", "Subscribe Now"],
+        "Arts & Crafts": ["Start DIY", "Get Creative", "Buy Handmade", "Express Yourself"],
+        "Automotive & Accessories": ["Test Drive", "Upgrade Ride", "Shop Accessories", "Exclusive Deals"]
+    };
+
+    // Handle category change to populate CTA options dynamically
+    document.getElementById('category').addEventListener('change', function() {
+        const selectedCategory = this.value;
+        const ctaInput = document.getElementById('cta_button_input');
+        const ctaDatalist = document.getElementById('SelectActionOrCTA');
+
+        // Clear the datalist options
+        ctaDatalist.innerHTML = '';
+
+        // Add default "None" option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "None";
+        ctaDatalist.appendChild(defaultOption);
+
+        // If a valid category is selected, populate the CTA options
+        if (selectedCategory && CTA_OPTIONS[selectedCategory]) {
+            const ctaOptions = CTA_OPTIONS[selectedCategory];
+            
+            // Add predefined CTA options
+            ctaOptions.forEach(function(option) {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                ctaDatalist.appendChild(optionElement);
+            });
+        }
+
+        // Allow user input if needed
+        ctaInput.placeholder = "Select or Input CTA"; // Update placeholder when category changes
+    });
+
+    </script>
+
+<script type="text/javascript">
+// For "Create New" form submission
+document.getElementById("createNewForm").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent form submission to handle loader
+    showLoader(); // Show loader and overlay
+
+    setTimeout(function() {
+        const form = document.querySelector('form[action="/createnew"]');
+        const content = document.querySelector('.summeryDiv').innerHTML;
+        
+        // Save the result for "Create New" tab
+        localStorage.setItem('createNewResult1', content);
+
+        form.submit();
+    }, 2000);
+});
+
+// For "Improve" form submission
+document.getElementById("improveForm").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent form submission to handle loader
+    showLoader(); // Show loader and overlay
+
+    setTimeout(function() {
+        const form = document.querySelector('form[action="/improve"]');
+        const content = document.querySelector('.summeryDiv').innerHTML;
+        
+        // Save the result for "Improve" tab
+        localStorage.setItem('improveResult1', content);
+
+        form.submit();
+    }, 2000);
+});
+
+</script>
+
+<script>
+
+        localStorage.setItem("createNewResult1", `{{ content|safe }}`);
+
+</script>
+                    </script>
+<script>
+    $(document).ready(function () {
+    var $contentlis = $('.tabsContent li'),
+        $tabslis = $('.tabsButtons li');
+
+    var activeIndex = localStorage.getItem("activeTab") ? parseInt(localStorage.getItem("activeTab")) : 0;
+
+    $tabslis.removeClass('active-btn').eq(activeIndex).addClass('active-btn');
+    $contentlis.hide().eq(activeIndex).show();
+
+
+    $('.tabsButtons').on('click', 'li', function () {
+        var index = $(this).index();
+
+        if (index === 1 && localStorage.getItem("createNewResult")) {
+            $("textarea[name='existing_content']").val(localStorage.getItem("createNewResult"));
+            $("input[name='category']").val(localStorage.getItem("Category"));
+            $("select[name='medium']").val(localStorage.getItem("Medium"));
+            $("input[name='brand']").val(localStorage.getItem("Brand"));
+
+        } else if (index === 1) {
+            $("textarea[name='existing_content']").val("");  
+        }
+
+        $tabslis.removeClass('active-btn');
+        $(this).addClass('active-btn');
+        $contentlis.hide().eq(index).show();
+        localStorage.setItem("activeTab", index);
+    });
+});
+</script>
+<script>
+    $(document).ready(function () {
+    $(".dataList").on("focus", function () {
+        $(this).val("");  // Clear the input field to allow re-selection
+    });
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let formData = JSON.parse('{{ form_data | safe }}')
+        console.log("dfghjkl",formData)
+        console.log("dfghjkl",formData.category)
+        
+        let formDataCN = JSON.parse('{{ form_data | safe }}')
+        // console.log("formDataCN",formDataCN)
+        // localStorage.setItem("CreateNewData", JSON.stringify(formDataCN));
+
+        localStorage.setItem("Category", formData.category);
+        localStorage.setItem("Medium", formData.medium);
+        localStorage.setItem("Brand",formData.brand);
+
+        // Loop through keys and populate fields dynamically
+        for (let key in formData) {
+            let inputField = document.querySelector(`[name="${key}"]`);
+            if (inputField) {
+                if (inputField.type === "checkbox") {
+                    inputField.checked = formData[key];
+                } else {
+                    inputField.value = formData[key] || "";
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve the form data from localStorage
+        // let formData = JSON.parse('{"existing_content": "Aditya Birla Sun Life Insurance values your health & wellness. This Diwali, let\'s light the lamp of secure future. Renew your policy on time, make it simple, keep it secure. Trust us for your journey ahead. Click \'Get Healthy\' to renew now.", "category": "Health & Wellness", "brand": "Aditya Birla Sun Life Insurance", "medium": "sms", "specific_input": "Make it simple", "ab_testing": false}');
+
+        let formData = JSON.parse('{{ form_data_improve | safe }}')
+
+        console.log("....",formData);  // Log the data to check
+
+        // Check if formData exists in localStorage before attempting to populate the fields
+        if (formData) {
+            // Populate fields using localStorage data
+
+
+            let existingContent = localStorage.getItem("createNewResult") || "";
+            // Populate input fields directly using the specified fields
+            $("textarea[name='existing_content']").val(existingContent);
+
+            $("input[name='category']").val(formData.category || "");
+            $("input[name='brand']").val(formData.brand || "");
+            $("select[name='medium']").val(formData.medium || "");
+            $("input[name='specific_input']").val(formData.specific_input || "");  // New field for specific_content
+
+            // If there's a checkbox for AB testing, set it to the stored value
+            if (formData.ab_testing !== undefined) {
+                $("input[name='ab_testing']").prop("checked", formData.ab_testing);
+            }
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var $contentlis = $('.tabsContent li'),
+            $tabslis = $('.tabsButtons li');
+
+        // ✅ Load active tab from localStorage (default to "Create New" if missing)
+        var activeIndex = localStorage.getItem("activeTab");
+        if (activeIndex === null) {
+            activeIndex = "0";  // Default to first tab
+            localStorage.setItem("activeTab", activeIndex);
+        } else {
+            activeIndex = parseInt(activeIndex);
+        }
+
+        console.log("Loaded active tab index: ", activeIndex); // Debugging log
+
+        // ✅ Show the correct tab and content
+        $tabslis.removeClass('active-btn').eq(activeIndex).addClass('active-btn');
+        $contentlis.hide().eq(activeIndex).show();
+
+        // Function to toggle the result sections and inputs (Create New / Improve Existing)
+        function toggleResultSections() {
+            let activeTab = localStorage.getItem("activeTab");
+
+            if (activeTab === "0") {  // "Create New" Tab
+                console.log("Showing 'Create New' section"); // Debugging log
+                $("#createNewResultSection").show();
+                $("#improveExistingResultSection").hide();
+
+                let createNewResult = localStorage.getItem("createNewResult");
+                let createNewData = JSON.parse(localStorage.getItem("createNewData"));
+                console.log("createNewData: ", createNewData); // Debugging log
+                console.log("createNewResult: ", createNewResult); // Debugging log
+
+                if (createNewResult) {
+                    $(".createNewResult").html(createNewResult); 
+                }
+
+                if (createNewData) {
+                    for (let key in createNewData) {
+                        let inputField = document.querySelector(`[name="${key}"]`);
+                        if (inputField) {
+                            if (inputField.type === "checkbox") {
+                                inputField.checked = createNewData[key];
+                            } else {
+                                inputField.value = createNewData[key] || "";
+                            }
+                        }
+                    }
+                }
+            } else if (activeTab === "1") {  // "Improve Existing" Tab
+                console.log("Showing 'Improve Existing' section"); // Debugging log
+                $("#createNewResultSection").hide();
+                $("#improveExistingResultSection").show();
+
+                let improveExistingResult = localStorage.getItem("improveExistingResult");
+                let improveData = JSON.parse(localStorage.getItem("improveData"));
+                let existingContent = localStorage.getItem("createNewResult");
+
+                console.log("improveData: ", improveData); // Debugging log
+                console.log("improveExistingResult: ", improveExistingResult); // Debugging log
+                console.log("CreateNewResult: ", existingContent); // Debugging log
+
+
+                if (improveExistingResult) {
+                    $(".improveExistingResult").html(improveExistingResult);
+                }
+
+                if (improveData) {
+                    $("input[name='category']").val(improveData.category || "");
+                    $("input[name='brand']").val(improveData.brand || "");
+                    $("select[name='medium']").val(improveData.medium || "");
+                    $("input[name='specific_input']").val(improveData.specific_input || "");
+
+                    if (improveData.ab_testing !== undefined) {
+                        $("input[name='ab_testing']").prop("checked", improveData.ab_testing);
+                    }
+
+                    if (improveData.existing_content) {
+                        $("textarea[name='existing_content']").val(existingContent);
+                    }
+                }
+            }
+        }
+
+        // Function to handle tab switching based on XPath
+        function switchTabBasedOnXPath(xpath) {
+            console.log("Tab switch triggered with XPath: ", xpath); // Debugging log
+
+            if (xpath === "/html/body/div/div[1]/ul[1]/li[1]") {
+                console.log("Switching to 'Create New' tab");
+                localStorage.setItem("activeTab", "0");
+                $tabslis.removeClass('active-btn').eq(0).addClass('active-btn');
+                $contentlis.hide().eq(0).show();
+                toggleResultSections();
+            } else if (xpath === "/html/body/div/div[1]/ul[1]/li[2]") {
+                console.log("Switching to 'Improve Existing' tab");
+                localStorage.setItem("activeTab", "1");
+                $tabslis.removeClass('active-btn').eq(1).addClass('active-btn');
+                $contentlis.hide().eq(1).show();
+                toggleResultSections();
+            }
+        }
+
+        // Attach event listeners for clicks (use the XPath-based logic)
+        document.querySelector('li:nth-child(1)').addEventListener('click', function () {
+            console.log("Clicked on 'Create New' tab"); // Debugging log
+            switchTabBasedOnXPath("/html/body/div/div[1]/ul[1]/li[1]");
+        });
+
+        document.querySelector('li:nth-child(2)').addEventListener('click', function () {
+            console.log("Clicked on 'Improve Existing' tab"); // Debugging log
+            switchTabBasedOnXPath("/html/body/div/div[1]/ul[1]/li[2]");
+        });
+
+        // Ensure the correct result section and input fields are visible when the page loads
+        toggleResultSections();
+    });
+</script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>121 Comms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styleSheet.css') }}">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
+    <style>
+        /* ✅ Styling for the bordered content box */
+        .contentBox {
+            border: 2px solid #007b8f;  /* Blue border */
+            padding: 15px;
+            margin: 20px auto; /* Centered */
+            background-color: #f9f9f9;  /* Light gray background */
+            text-align: left;  /* ✅ Ensures text is left-aligned */
+            white-space: pre-wrap; /* ✅ Preserves formatting but removes extra spaces */
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            max-width: 80%;  /* ✅ Controls width */
+            overflow: hidden;  /* ✅ Prevents unnecessary scrolling */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* ✅ Centers text properly */
+            border-radius: 8px; /* ✅ Smooth rounded corners */
+        }
+
+        /* ✅ Ensures mobile responsiveness */
+        @media screen and (max-width: 600px) {
+            .contentBox {
+                max-width: 95%;  /* Uses full width on small screens */
+                font-size: 14px;  /* Adjusts font size for better readability */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="fullWidthDiv">
+    <div class="maxWidthDiv">
+
+        <div class="sumHeader">
+            Ola - Here is the result. Donate a share on your social media if you wish.
+        </div>
+
+        {% if content %}
+            <div class="summeryDiv contentBox">  <!-- ✅ Wrapped in a proper border box -->
+                <p>{{ content }}</p>
+            </div>
+        {% else %}
+            <div class="summeryDiv">
+                <b>No content generated yet. Please try again.</b> <!-- Prevents blank display -->
+            </div>
+        {% endif %}
+
+        <div class="smallText">
+            This is a free-to-use Gen AI tool of 0101.today. Check and make brand-specific changes before you publish.
+        </div>
+
+    </div><!-- maxWidthDiv div end -->
+</div><!-- fullWidthDiv div end -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/index.js') }}"></script>
+
+</body>
+</html>
