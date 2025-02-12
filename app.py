@@ -88,7 +88,7 @@ def improve_content():
     "ab_testing": ab_testing
      }
     
-    return render_template("indexg.html", content=results, improve_content= results,     form_data=json.dumps(data_dict, ensure_ascii=False),
+    return render_template("index.html", content=results, improve_content= results,     form_data=json.dumps(data_dict, ensure_ascii=False),
     form_data_improve=json.dumps(data_dict_i,ensure_ascii=False))  # Passes output to result.html
 
 if __name__ == "__main__":
