@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Define routes for the Flask app
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")  # Renders the form page
+    return render_template("indexg.html")  # Renders the form page
 
 @app.route("/createnew", methods=["POST", "GET"])
 def generate_content():
@@ -47,8 +47,8 @@ def generate_content():
     "ab_testing": ab_testing
 }
 
-    return render_template("index.html", content=result, create_content =result,form_data_create =json.dumps(form_data or {}),
-                          form_data=json.dumps(form_data or {}))  # Passes output to index.html
+    return render_template("indexg.html", content=result, create_content =result,form_data_create =json.dumps(form_data or {}),
+                          form_data=json.dumps(form_data or {}))  # Passes output to result.html
 
 @app.route("/improveexisting", methods=["POST", "GET"])
 def improve_content():
@@ -80,16 +80,16 @@ def improve_content():
      }
 
     data_dict_i = {
-    "existing_content": existing_content ,
     "category": category,
     "brand": brand,
     "medium": medium,
     "specific_input": specific_input,
     "ab_testing": ab_testing
      }
-    
-    return render_template("index.html", content=results, improve_content= results,     form_data=json.dumps(data_dict, ensure_ascii=False),
-    form_data_improve=json.dumps(data_dict_i,ensure_ascii=False))  # Passes output to result.html
+
+    return render_template("indexg.html", content=results, improve_content= results,     form_data=json.dumps(data_dict, ensure_ascii=False),
+    form_data_improve=json.dumps(data_dict_i,ensure_ascii=False),
+    existing_content = existing_content)  # Passes output to result.html
 
 if __name__ == "__main__":
     # app.run(host="0.0.0.0", port=8080, debug=True)
