@@ -209,7 +209,7 @@
 				<div class="chidDivs_2">
 					<div class="labelDiv reqField">Any specific comment</div>
 					<div class="inptCont">
-						<input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" />
+						<input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" required/>
 					</div>
 					<p class="formError_text" id="">error message</p>
 				</div>
@@ -498,20 +498,21 @@ document.getElementById("improveForm").addEventListener("click", function(event)
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Retrieve the form data from localStorage
-        // let formData = JSON.parse('{"existing_content": "Aditya Birla Sun Life Insurance values your health & wellness. This Diwali, let\'s light the lamp of secure future. Renew your policy on time, make it simple, keep it secure. Trust us for your journey ahead. Click \'Get Healthy\' to renew now.", "category": "Health & Wellness", "brand": "Aditya Birla Sun Life Insurance", "medium": "sms", "specific_input": "Make it simple", "ab_testing": false}');
-
-        let formData = JSON.parse('{{ form_data_improve | safe }}')
+        let formData = JSON.parse(`{{ form_data_improve|safe }}`)
+        let existing_content = `{{ existing_content|safe }}`
+         
 
         console.log("....",formData);  // Log the data to check
-
+        console.log(existing_content)
         // Check if formData exists in localStorage before attempting to populate the fields
         if (formData) {
             // Populate fields using localStorage data
 
 
-            let existingContent = localStorage.getItem("createNewResult") || "";
+            // let existingContent = localStorage.getItem("createNewResult") || "";
             // Populate input fields directly using the specified fields
-            $("textarea[name='existing_content']").val(existingContent);
+            // $("textarea[name='existing_content']").val(existingContent);
+            $("textarea[name='existing_content']").val(existing_content || "");
 
             $("input[name='category']").val(formData.category || "");
             $("input[name='brand']").val(formData.brand || "");
