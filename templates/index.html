@@ -31,8 +31,10 @@
         <ul class="tabsContent">
 
             <!-- ✅ Create New Form -->
-            <li>
-            <form action="/createnew" method="post"> <!-- ✅ Wrap all inputs inside form -->
+            <li class="active-tab">
+            <form name="createnewForm" action="/createnew" method="post">
+
+            <!-- <form action="/createnew" method="post"> ✅ Wrap all inputs inside form -->
 
                 <div class="parentDiv">
                     <div class="chidDivs_2">
@@ -146,16 +148,20 @@
                     </div>
                     <div class="divCTA">
                         <div class="inptCont">
-                            <input type="button" class="commonInptBTN" id="createNewForm" value="Create" />
+                            <input type="submit" class="commonInptBTN" id="createNewForm" value="Create" />
                         </div>
                     </div>
                 </div>
 
             </form> <!-- ✅ Form closes here -->
+            <div id="errorMessages"></div>
+
             </li> <!--CREATE NEW end-->
 
-			<li>
-			<form action="/improveexisting" method="post"> <!-- ✅ Wrap all inputs inside form -->
+			<li class="hidden-tab">
+                <form name="improveExisting" action="/improveexisting" method="post">
+
+			<!-- <form action="/improveexisting" method="post"> ✅ Wrap all inputs inside form -->
 
 			<!-- ✅ Improve Existing Section (Initially Hidden) -->
 			<div class="parentDiv ">
@@ -223,12 +229,14 @@
 				</div>
 				<div class="divCTA">
 					<div class="inptCont">
-						<input type="button" class="commonInptBTN" id="improveExistingForm" value="Improve" />
+						<input type="submit" class="commonInptBTN" id="improveExistingForm" value="Improve" />
 					</div>
 				</div>
 			</div>
 
 			</form> <!-- ✅ Form closes here -->
+            <div id="errorMessages"></div>
+
 			</li><!--IMPROVE EXISTING end-->
 
         </ul>
@@ -305,39 +313,86 @@
 
 
 <script type="text/javascript">
-    // Function to show the loader and overlay
+document.addEventListener("DOMContentLoaded", function () {
     function showLoader() {
-        document.getElementById("loader").style.display = "block"; // Show the loader
-        document.getElementById("overlay").style.display = "block"; // Show the overlay (gray out)
+        document.getElementById("loader").style.display = "block"; // Show loader
+        document.getElementById("overlay").style.display = "block"; // Show overlay (gray out)
     }
 
-    // Function to hide the loader and overlay
     function hideLoader() {
-        document.getElementById("loader").style.display = "none"; // Hide the loader
-        document.getElementById("overlay").style.display = "none"; // Hide the overlay
+        document.getElementById("loader").style.display = "none"; // Hide loader
+        document.getElementById("overlay").style.display = "none"; // Hide overlay
     }
 
-    // For Create New Form button click
-    document.getElementById("createNewForm").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent form submission to handle loader
-        showLoader(); // Show loader and overlay
-        
-        // Optional: Simulate some delay to see the loader working
-        setTimeout(function() {
-            document.querySelector('form[action="/createnew"]').submit(); // Submit the form after the loader appears
-        }, 2000); // Change the delay as per your requirement
-    });
+    function validateForm(form) {
+        let isValid = true;
+        const requiredFields = form.querySelectorAll("[required]");
 
-    // For Improve Existing Form button click
-    document.getElementById("improveExistingForm").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent form submission to handle loader
-        showLoader(); // Show loader and overlay
-        
-        // Optional: Simulate some delay to see the loader working
-        setTimeout(function() {
-            document.querySelector('form[action="/improveexisting"]').submit(); // Submit the form after the loader appears
-        }, 2000); // Change the delay as per your requirement
-    });
+        requiredFields.forEach(field => {
+            let errorSpan = field.nextElementSibling;
+
+            // If no error span exists, create one
+            if (!errorSpan || !errorSpan.classList.contains("error-message")) {
+                errorSpan = document.createElement("span");
+                errorSpan.classList.add("error-message");
+                field.parentNode.insertBefore(errorSpan, field.nextSibling);
+            }
+
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add("error"); // Add red border
+                errorSpan.textContent = "⚠️ This field is required!";
+                errorSpan.style.display = "inline"; // Ensure the message is inline
+            } else {
+                field.classList.remove("error"); // Remove red border
+                errorSpan.textContent = ""; // Clear error message
+                errorSpan.style.display = "none"; // Hide span completely
+            }
+
+        });
+
+        return isValid;
+    }
+
+    function handleFormSubmission(buttonId, formSelector) {
+        document.getElementById(buttonId).addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default submission
+            const form = document.querySelector(formSelector);
+
+            if (!validateForm(form)) {
+                return; // Stop if validation fails
+            }
+
+            showLoader(); // Show loader & overlay
+            
+            setTimeout(function () {
+                form.submit();
+            }, 2000); // Delay to show loader effect
+        });
+    }
+
+    function setupLiveValidation() {
+        const requiredFields = document.querySelectorAll("[required]");
+
+        requiredFields.forEach(field => {
+            field.addEventListener("input", function () {
+                let errorSpan = field.nextElementSibling;
+                if (errorSpan && errorSpan.classList.contains("error-message")) {
+                    errorSpan.textContent = ""; // Remove error message
+                }
+                field.classList.remove("error"); // Remove red border
+            });
+        });
+    }
+
+    // Attach event listeners to buttons
+    handleFormSubmission("createNewForm", 'form[action="/createnew"]');
+    handleFormSubmission("improveExistingForm", 'form[action="/improveexisting"]');
+
+    // Set up live validation
+    setupLiveValidation();
+});
+
 </script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/index.js') }}"></script>
@@ -409,6 +464,7 @@ document.getElementById("improveForm").addEventListener("click", function(event)
     event.preventDefault(); // Prevent form submission to handle loader
     showLoader(); // Show loader and overlay
 
+    
     setTimeout(function() {
         const form = document.querySelector('form[action="/improve"]');
         const content = document.querySelector('.summeryDiv').innerHTML;
@@ -428,37 +484,6 @@ document.getElementById("improveForm").addEventListener("click", function(event)
 
 </script>
                     </script>
-<script>
-    $(document).ready(function () {
-    var $contentlis = $('.tabsContent li'),
-        $tabslis = $('.tabsButtons li');
-
-    var activeIndex = localStorage.getItem("activeTab") ? parseInt(localStorage.getItem("activeTab")) : 0;
-
-    $tabslis.removeClass('active-btn').eq(activeIndex).addClass('active-btn');
-    $contentlis.hide().eq(activeIndex).show();
-
-
-    $('.tabsButtons').on('click', 'li', function () {
-        var index = $(this).index();
-
-        if (index === 1 && localStorage.getItem("createNewResult")) {
-            $("textarea[name='existing_content']").val(localStorage.getItem("createNewResult"));
-            $("input[name='category']").val(localStorage.getItem("Category"));
-            $("select[name='medium']").val(localStorage.getItem("Medium"));
-            $("input[name='brand']").val(localStorage.getItem("Brand"));
-
-        } else if (index === 1) {
-            $("textarea[name='existing_content']").val("");  
-        }
-
-        $tabslis.removeClass('active-btn');
-        $(this).addClass('active-btn');
-        $contentlis.hide().eq(index).show();
-        localStorage.setItem("activeTab", index);
-    });
-});
-</script>
 <script>
     $(document).ready(function () {
     $(".dataList").on("focus", function () {
@@ -532,39 +557,42 @@ document.getElementById("improveForm").addEventListener("click", function(event)
         var $contentlis = $('.tabsContent li'),
             $tabslis = $('.tabsButtons li');
 
-        // ✅ Load active tab from localStorage (default to "Create New" if missing)
+        var INACTIVITY_LIMIT = 1 * 60 * 1000; // 5 minutes
+        var lastActivityTime = localStorage.getItem("lastActivityTime") || Date.now();
         var activeIndex = localStorage.getItem("activeTab");
-        if (activeIndex === null) {
-            activeIndex = "0";  // Default to first tab
+
+        // Reset to "Create New" if inactive for more than 5 minutes
+        if (activeIndex === null || Date.now() - lastActivityTime > INACTIVITY_LIMIT) {
+            activeIndex = "0"; // Default to "Create New"
             localStorage.setItem("activeTab", activeIndex);
         } else {
             activeIndex = parseInt(activeIndex);
         }
 
-        console.log("Loaded active tab index: ", activeIndex); // Debugging log
+        console.log("Loaded active tab index:", activeIndex);
 
-        // ✅ Show the correct tab and content
-        $tabslis.removeClass('active-btn').eq(activeIndex).addClass('active-btn');
-        $contentlis.hide().eq(activeIndex).show();
+        // Apply active tab state
+        function setActiveTab(index) {
+            $tabslis.removeClass('active-btn').eq(index).addClass('active-btn');
+            $contentlis.hide().eq(index).show();
+            localStorage.setItem("activeTab", index);
+            localStorage.setItem("lastActivityTime", Date.now());
+        }
 
-        // Function to toggle the result sections and inputs (Create New / Improve Existing)
+        setActiveTab(activeIndex);
+
         function toggleResultSections() {
             let activeTab = localStorage.getItem("activeTab");
 
-            if (activeTab === "0") {  // "Create New" Tab
-                console.log("Showing 'Create New' section"); // Debugging log
+            if (activeTab === "0") {  
                 $("#createNewResultSection").show();
                 $("#improveExistingResultSection").hide();
 
                 let createNewResult = localStorage.getItem("createNewResult");
                 let createNewData = JSON.parse(localStorage.getItem("createNewData"));
-                console.log("createNewData: ", createNewData); // Debugging log
-                console.log("createNewResult: ", createNewResult); // Debugging log
-
                 if (createNewResult) {
                     $(".createNewResult").html(createNewResult); 
                 }
-
                 if (createNewData) {
                     for (let key in createNewData) {
                         let inputField = document.querySelector(`[name="${key}"]`);
@@ -577,24 +605,15 @@ document.getElementById("improveForm").addEventListener("click", function(event)
                         }
                     }
                 }
-            } else if (activeTab === "1") {  // "Improve Existing" Tab
-                console.log("Showing 'Improve Existing' section"); // Debugging log
+            } else {  
                 $("#createNewResultSection").hide();
                 $("#improveExistingResultSection").show();
 
                 let improveExistingResult = localStorage.getItem("improveExistingResult");
                 let improveData = JSON.parse(localStorage.getItem("improveData"));
-                let existingContent = localStorage.getItem("createNewResult");
-
-                console.log("improveData: ", improveData); // Debugging log
-                console.log("improveExistingResult: ", improveExistingResult); // Debugging log
-                console.log("CreateNewResult: ", existingContent); // Debugging log
-
-
                 if (improveExistingResult) {
                     $(".improveExistingResult").html(improveExistingResult);
                 }
-
                 if (improveData) {
                     $("input[name='category']").val(improveData.category || "");
                     $("input[name='brand']").val(improveData.brand || "");
@@ -604,49 +623,42 @@ document.getElementById("improveForm").addEventListener("click", function(event)
                     if (improveData.ab_testing !== undefined) {
                         $("input[name='ab_testing']").prop("checked", improveData.ab_testing);
                     }
-
                     if (improveData.existing_content) {
-                        $("textarea[name='existing_content']").val(existingContent);
+                        $("textarea[name='existing_content']").val(improveData.existing_content);
                     }
                 }
             }
         }
 
-        // Function to handle tab switching based on XPath
-        function switchTabBasedOnXPath(xpath) {
-            console.log("Tab switch triggered with XPath: ", xpath); // Debugging log
+        function switchTab(index) {
+            console.log("Switching to tab index:", index);
+            setActiveTab(index);
 
-            if (xpath === "/html/body/div/div[1]/ul[1]/li[1]") {
-                console.log("Switching to 'Create New' tab");
-                localStorage.setItem("activeTab", "0");
-                $tabslis.removeClass('active-btn').eq(0).addClass('active-btn');
-                $contentlis.hide().eq(0).show();
-                toggleResultSections();
-            } else if (xpath === "/html/body/div/div[1]/ul[1]/li[2]") {
-                console.log("Switching to 'Improve Existing' tab");
-                localStorage.setItem("activeTab", "1");
-                $tabslis.removeClass('active-btn').eq(1).addClass('active-btn');
-                $contentlis.hide().eq(1).show();
-                toggleResultSections();
+            // Handle chatbot result transition
+            if (index === 1 && localStorage.getItem("createNewResult")) {
+                $("textarea[name='existing_content']").val(localStorage.getItem("createNewResult"));
+                $("input[name='category']").val(localStorage.getItem("Category"));
+                $("select[name='medium']").val(localStorage.getItem("Medium"));
+                $("input[name='brand']").val(localStorage.getItem("Brand"));
             }
+
+            toggleResultSections();
         }
 
-        // Attach event listeners for clicks (use the XPath-based logic)
-        document.querySelector('li:nth-child(1)').addEventListener('click', function () {
-            console.log("Clicked on 'Create New' tab"); // Debugging log
-            switchTabBasedOnXPath("/html/body/div/div[1]/ul[1]/li[1]");
+        $(".tabsButtons li").each(function (index) {
+            $(this).on("click", function () {
+                switchTab(index);
+            });
         });
 
-        document.querySelector('li:nth-child(2)').addEventListener('click', function () {
-            console.log("Clicked on 'Improve Existing' tab"); // Debugging log
-            switchTabBasedOnXPath("/html/body/div/div[1]/ul[1]/li[2]");
-        });
-
-        // Ensure the correct result section and input fields are visible when the page loads
         toggleResultSections();
+
+        // Track user activity to reset inactive sessions
+        $(document).on("mousemove keydown click", function () {
+            localStorage.setItem("lastActivityTime", Date.now());
+        });
     });
 </script>
-
 
 </body>
 </html>
