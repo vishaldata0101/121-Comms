@@ -26,6 +26,49 @@ body {margin:0px; padding:0px; font-family:"Montserrat", serif; font-optical-siz
 
 .tabsContent {margin:0px; padding:10px; list-style:none;}
 .tabsContent li {display:none;}
+.tabsContent li.active-tab {
+    display: block;
+}
+
+.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px; /* Places the error below input */
+}
+
+.hidden-tab {
+    display: none;
+}
+.default-tab {
+    display: block;
+}
+.error {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
+
+.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px; /* Places the error below input */
+}
+
+.active-tab {
+    display: block;
+}
+.tab.active {
+    display: block; /* Ensure only the active tab is visible */
+}
 
 
 .parentDiv.width50perc {float:left; display:inline; width:50%; clear:none; box-sizing:border-box;}
