@@ -144,35 +144,66 @@ body {margin:0px; padding:0px; font-family:"Montserrat", serif; font-optical-siz
 
 	.smallText {font-size:14px;}
 }
-/* Overlay to gray out the page */
-.overlay {
+
+/* Overlay to gray out background */
+#overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    z-index: 999; /* Ensure it's above all content */
-    display: none; /* Initially hidden */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 }
 
-/* Loader Styling */
-.loader {
+/* Loader container */
+#loader {
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    color: #000; /* Dark black color */
-    z-index: 1000; /* Ensure it's above the overlay */
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
 }
 
-.loader p {
-    margin: 0;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Slight white background */
-    border-radius: 5px;
+#loader p {
+    color: #108899; 
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: bold;
+    font-style: italic;
 }
 
 
+
+/* Rotating ring */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3; /* Light gray */
+    border-top: 5px solid #108899; /* Blue rotating part */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto; /* Centering */
+}
+
+/* Loader animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Error Styling */
+.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-left: 5px;
+}
