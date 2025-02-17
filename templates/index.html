@@ -68,9 +68,15 @@
                     <div class="chidDivs_2">
                         <div class="labelDiv reqField">State Objective</div>
                         <div class="inptCont">
-                            <input type="text" name="objective" class="commonInpt" placeholder="Input Here (max. 50 characters)" required />
+                            <input type="text" identifier="objective" name="objective" class="commonInpt" placeholder="Input Here (max. 75 characters)" 
+                                required maxlength="76" onkeyup="validateLength(this, 75)" />
+                            <span class="errormessage" style="color: red; font-size: 14px; display: none;">Character limit exceeded! Max 75 characters allowed.</span>
+
+                            <!-- <input type="text" name="objective" class="commonInpt" placeholder="Input Here (max. 50 characters)" required /> -->
                         </div>
-						<p class="formError_text" id="">error message</p>
+						<!-- <p class="formError_text" id="">error message</p> -->
+                        <p class="formError_text" id="objectiveError">error message</p>
+
                     </div>
 					<div class="chidDivs_2">
 						<div class="labelDiv reqField">Action / CTA</div>
@@ -89,16 +95,24 @@
                     <div class="chidDivs_2">
                         <div class="labelDiv">Offer/ Incentive</div>
                         <div class="inptCont">
-                            <input type="text" name="offer" class="commonInpt" placeholder="Input Here (max. 30 characters)" />
+                            <input type="text" identifier = "offer" name="offer" class="commonInpt" placeholder="Input Here (max. 50 characters)" 
+                            maxlength="51" onkeyup="validateLength(this, 50)" />
+                            <span class="errormessage" style="color: red; font-size: 14px; display: none;">Character limit exceeded! Max 50 characters allowed.</span>
                         </div>
-						<p class="formError_text" id="">error message</p>
+						<!-- <p class="formError_text" id="">error message</p> -->
+                        <p class="formError_text" id="offerError">error message</p>
+
                     </div>
                     <div class="chidDivs_2">
                         <div class="labelDiv">Any specific comments</div>
                         <div class="inptCont">
-                            <input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" />
+                            <input type="text" identifier = "specific_input_create" name="specific_input" class="commonInpt" placeholder="Input Here (max. 75 characters)" 
+                            maxlength="76" onkeyup="validateLength(this, 75)" />
+                            <span class="errormessage" style="color: red; font-size: 14px; display: none;">Character limit exceeded! Max 75 characters allowed.</span>
                         </div>
-						<p class="formError_text" id="">error message</p>
+						<!-- <p class="formError_text" id="">error message</p> -->
+                        <p class="formError_text" id="specific_input_createError">error message</p>
+
                     </div>
                 </div>
 
@@ -215,9 +229,13 @@
 				<div class="chidDivs_2">
 					<div class="labelDiv reqField">Any specific comment</div>
 					<div class="inptCont">
-						<input type="text" name="specific_input" class="commonInpt" placeholder="Input Here (max. 50 characters)" required/>
+						<input type="text" identifier="specific_input_improve" name="specific_input" class="commonInpt" placeholder="Input Here (max. 75 characters)" 
+                        required maxlength="76" onkeyup="validateLength(this, 75)" />
+                        <span class="errormessage" style="color: red; font-size: 14px; display: none;">Character limit exceeded! Max 75 characters allowed.</span>
 					</div>
-					<p class="formError_text" id="">error message</p>
+					<!-- <p class="formError_text" id="">error message</p> -->
+						<p class="formError_text" id="specific_input_improveError">error message</p>
+
 				</div>
 			</div>
 
@@ -266,13 +284,13 @@
                 This is a free-to-use Gen AI tool of 0101.today. Check and make brand-specific changes before you publish.
             </div>
 
-            <!-- Store the result for Create New in localStorage -->
             <script>
 
                 localStorage.setItem("createNewResult", `{{ content|safe }}`);
                 localStorage.setItem("createNewData", `{{ form_data_create|safe }}`);
 
-
+                document.getElementById("createNewResultSection").style.display = "block";
+                document.getElementById("createNewResultSection").scrollIntoView({ behavior: "smooth" });
             </script>
         {% endif %}
     </div>
@@ -299,6 +317,9 @@
                 localStorage.setItem("improveExistingResult", `{{ improve_content|safe }}`);
                 localStorage.setItem("improveData", `{{ form_data_improve|safe }}`);
 
+                document.getElementById("improveExistingResultSection").style.display = "block";
+                document.getElementById("improveExistingResultSection").scrollIntoView({ behavior: "smooth" });
+
             </script>
         {% endif %}
     </div>
@@ -308,12 +329,12 @@
 <div id="overlay" class="overlay" style="display: none;"></div>
 
 <div id="loader" class="loader" style="display: none;">
+    <div class="spinner"></div> <!-- Rotating ring -->
     <p>Processing...</p>
 </div>
 
 
-<script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function () {
+<script>document.addEventListener("DOMContentLoaded", function () {
     function showLoader() {
         document.getElementById("loader").style.display = "block"; // Show loader
         document.getElementById("overlay").style.display = "block"; // Show overlay (gray out)
@@ -329,26 +350,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const requiredFields = form.querySelectorAll("[required]");
 
         requiredFields.forEach(field => {
-            let errorSpan = field.nextElementSibling;
+            let errorSpan = field.closest(".chidDivs_2").querySelector(".formError_text"); // Find the associated error message span
 
-            // If no error span exists, create one
-            if (!errorSpan || !errorSpan.classList.contains("error-message")) {
-                errorSpan = document.createElement("span");
-                errorSpan.classList.add("error-message");
-                field.parentNode.insertBefore(errorSpan, field.nextSibling);
-            }
-
+            // Check if the field is empty
             if (!field.value.trim()) {
                 isValid = false;
-                field.classList.add("error"); // Add red border
-                errorSpan.textContent = "⚠️ This field is required!";
-                errorSpan.style.display = "inline"; // Ensure the message is inline
+                field.classList.add("error"); // Add red border for error
+                errorSpan.textContent = "⚠️ This field is required!"; // Show error message
+                errorSpan.style.display = "inline"; // Ensure error message is shown
             } else {
                 field.classList.remove("error"); // Remove red border
-                errorSpan.textContent = ""; // Clear error message
-                errorSpan.style.display = "none"; // Hide span completely
+                errorSpan.textContent = ""; // Clear the error message
+                errorSpan.style.display = "none"; // Hide the error message
             }
-
         });
 
         return isValid;
@@ -356,18 +370,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleFormSubmission(buttonId, formSelector) {
         document.getElementById(buttonId).addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent default submission
-            const form = document.querySelector(formSelector);
+            event.preventDefault(); // Prevent the default form submission
 
+            const form = document.querySelector(formSelector);
+            
+            // Validate the form before submitting
             if (!validateForm(form)) {
                 return; // Stop if validation fails
             }
 
-            showLoader(); // Show loader & overlay
-            
+            showLoader(); // Show loader and overlay before submitting
+
             setTimeout(function () {
-                form.submit();
-            }, 2000); // Delay to show loader effect
+                form.submit(); // Submit form after delay
+            }, 2000); // Delay for loader effect
         });
     }
 
@@ -376,29 +392,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         requiredFields.forEach(field => {
             field.addEventListener("input", function () {
-                let errorSpan = field.nextElementSibling;
-                if (errorSpan && errorSpan.classList.contains("error-message")) {
-                    errorSpan.textContent = ""; // Remove error message
+                let errorSpan = field.closest(".chidDivs_2").querySelector(".formError_text"); // Find the associated error message span
+                if (errorSpan) {
+                    errorSpan.textContent = ""; // Remove the error message on input change
+                    field.classList.remove("error"); // Remove red border
                 }
-                field.classList.remove("error"); // Remove red border
             });
         });
     }
 
-    // Attach event listeners to buttons
+    // Attach event listeners to buttons for form submission
     handleFormSubmission("createNewForm", 'form[action="/createnew"]');
     handleFormSubmission("improveExistingForm", 'form[action="/improveexisting"]');
 
     // Set up live validation
     setupLiveValidation();
 });
-
 </script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/index.js') }}"></script>
 <script type="text/javascript">
     const CTA_OPTIONS = {
-        "None": ["None"],
         "Fashion & Apparel": ["Shop Trends", "Get Your Look", "New Arrivals", "Upgrade Now"],
         "Beauty & Personal Care": ["Glow Up", "Try Now", "Find Your Shade", "Shop Beauty"],
         "Health & Wellness": ["Start Now", "Get Healthy", "Book Now", "Feel Better"],
@@ -419,11 +433,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Clear the datalist options
         ctaDatalist.innerHTML = '';
 
-        // Add default "None" option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = "None";
-        ctaDatalist.appendChild(defaultOption);
-
         // If a valid category is selected, populate the CTA options
         if (selectedCategory && CTA_OPTIONS[selectedCategory]) {
             const ctaOptions = CTA_OPTIONS[selectedCategory];
@@ -439,8 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Allow user input if needed
         ctaInput.placeholder = "Select or Input CTA"; // Update placeholder when category changes
     });
-
-    </script>
+</script>
 
 <script type="text/javascript">
 // For "Create New" form submission
@@ -456,6 +464,7 @@ document.getElementById("createNewForm").addEventListener("click", function(even
         localStorage.setItem('createNewResult1', content);
 
         form.submit();
+
     }, 2000);
 });
 
@@ -473,6 +482,7 @@ document.getElementById("improveForm").addEventListener("click", function(event)
         localStorage.setItem('improveResult1', content);
 
         form.submit();
+
     }, 2000);
 });
 
@@ -531,12 +541,7 @@ document.getElementById("improveForm").addEventListener("click", function(event)
         console.log(existing_content)
         // Check if formData exists in localStorage before attempting to populate the fields
         if (formData) {
-            // Populate fields using localStorage data
 
-
-            // let existingContent = localStorage.getItem("createNewResult") || "";
-            // Populate input fields directly using the specified fields
-            // $("textarea[name='existing_content']").val(existingContent);
             $("textarea[name='existing_content']").val(existing_content || "");
 
             $("input[name='category']").val(formData.category || "");
@@ -659,6 +664,30 @@ document.getElementById("improveForm").addEventListener("click", function(event)
         });
     });
 </script>
+<script>
+function validateLength(input, maxLength) {
+    const currentLength = input.value.length;
+    
+    // Use the identifier to find the error message element.
+    const errorMessageElement = document.querySelector(`#${input.getAttribute('identifier')}Error`);
+
+    // Check if errorMessageElement exists before proceeding
+    if (errorMessageElement) {
+        // Check if the character length exceeds the maxLength
+        if (currentLength > maxLength) {
+            errorMessageElement.style.display = 'inline';
+            errorMessageElement.textContent = 'Character limit exceeded! Max ' + maxLength + ' characters allowed.';
+            input.classList.add('error');  // Optional: Add a class to highlight the input (e.g., with a red border)
+        } else {
+            errorMessageElement.style.display = 'none';
+            errorMessageElement.textContent = '';  // Clear the error message
+            input.classList.remove('error');
+        }
+    }
+}
+
+</script>
+
 
 </body>
 </html>
